@@ -10,9 +10,16 @@
     </style>
 
     <h1>movies</h1>
-    <template is="dom-repeat" items={{movies}}>
-        <div>{{item.title}}</div>
-    </template>
+
+    <template is="dom-repeat" items="{{movies.comedy}}">
+      hello
+
+        <!-- <template is="dom-repeat" items="{{item}}">
+            <div>{{item.title}}</div>
+        </template> -->
+  </template>
+
+
   </template>
 
   <script>
@@ -22,22 +29,55 @@
       }
       static get properties() {
         return {
+          comedy: {
+            type: Array
+          },
+          drama: {
+            type: Array
+          },
+          genres: {
+            type: Array
+          },
           movies: {
-            type: Array,
+            type: Array
           }
         };
       }
-      fetchMovies() {
-        fetch('http://movied.herokuapp.com/categories/35')
-          .then(response => response.json())
-          .then(response => {
-            this.movies = response;
-          })
-      }
+
       constructor() {
         super();
+        this.addGenres();
         this.fetchMovies();
+
       }
+
+      addGenres() {
+        this.genres = [{
+          name: 'comedy',
+          id: 35
+        }, {
+          name: 'drama',
+          id: 18
+        }]
+      }
+
+      fetchMovies() {
+        this.movies = {};
+        // this.genres.forEach((el, key) => {
+        fetch(`http://movied.herokuapp.com/categories/35`)
+          .then(response => response.json())
+          .then(response => {
+            this.movies.comedy = response;
+          })
+        // })
+
+        console.log(this.movies)
+
+      }
+
+
+
+
     }
 
     window.customElements.define(MoviesNextApp.is, MoviesNextApp);
