@@ -1,0 +1,45 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="movies-next-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <h1>movies</h1>
+    <template is="dom-repeat" items={{movies}}>
+        <div>{{item.title}}</div>
+    </template>
+  </template>
+
+  <script>
+    class MoviesNextApp extends Polymer.Element {
+      static get is() {
+        return 'movies-next-app';
+      }
+      static get properties() {
+        return {
+          movies: {
+            type: Array,
+          }
+        };
+      }
+      fetchMovies() {
+        fetch('http://movied.herokuapp.com/categories/35')
+          .then(response => response.json())
+          .then(response => {
+            this.movies = response;
+          })
+      }
+      constructor() {
+        super();
+        this.fetchMovies();
+      }
+    }
+
+    window.customElements.define(MoviesNextApp.is, MoviesNextApp);
+  </script>
+</dom-module>

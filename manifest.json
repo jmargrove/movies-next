@@ -1,0 +1,6 @@
+{
+  "name": "movies-next",
+  "short_name": "movies-next",
+  "start_url": "/",
+  "display": "standalone"
+}
